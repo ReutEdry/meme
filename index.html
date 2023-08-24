@@ -21,20 +21,27 @@
         </nav>
     </header>
 
-    <section class="canvas-container hide">
-        <article class="meme-editor">
+    <section class="meme-editor hide">
+        <article class="canvas-container">
             <div class="editing-sec"></div>
-            <canvas width="400" height="400" onclick="onxt(event)"></canvas>
+            <canvas width="400" height="400" onclick="onCanvasClick(event)"></canvas>
         </article>
 
         <article class="tool-bar">
-            <input class="txt-input" type="text" placeholder="Write your meme text" oninput="onInputVal(this.value)">
-            <button onclick="onIncreaseFont()">A+</button>
-            <button onclick="onDecreaseFont()">A-</button>
-            <input type="color" name="bgcColor" onchange="onSetTextColor(this.value)">
-            <button class="add-line" onclick="onAddLine()">Add Line</button>
-            <button class="switch-line" onclick="onSwitchLine()">🡙</button>
-            <a href="#" class="btn" onclick="downloadImg(this)" download="my-img">Download</a>
+            <div>
+
+                <input class="txt-input" type="text" placeholder="Write your meme text"
+                    oninput="onInputVal(this.value)">
+                <button onclick="onIncreaseFont()">A+</button>
+                <button onclick="onDecreaseFont()">A-</button>
+            </div>
+            <div>
+
+                <input type="color" name="bgcColor" onchange="onSetTextColor(this.value)">
+                <button class="add-line" onclick="onAddLine()">Add Line</button>
+                <button class="switch-line" onclick="onSwitchLine()">🡙</button>
+                <a href="#" class="btn" onclick="downloadImg(this)" download="my-img">Download</a>
+            </div>
         </article>
     </section>
 

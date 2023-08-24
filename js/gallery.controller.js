@@ -4,6 +4,8 @@ function onInit() {
     renderGallery()
     gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
+    // addEventListenrs()
+    // resizeCanvas()
 }
 
 function renderGallery() {
@@ -30,6 +32,6 @@ function onSetDefualtFeatures() {
 function setPassingToMemeDesign() {
     const elGalleryContainer = document.querySelector('.gallery-container')
     elGalleryContainer.classList.add('hide')
-    const elCanvasContainer = document.querySelector('.canvas-container')
+    const elCanvasContainer = document.querySelector('.meme-editor')
     elCanvasContainer.classList.remove('hide')
 }

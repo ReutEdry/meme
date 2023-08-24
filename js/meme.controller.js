@@ -3,6 +3,8 @@
 let gElCanvas
 let gCtx
 let gImgById
+let gStartPos
+// let gIsDownloadReady = false
 
 function renderMeme() {
     const meme = getMeme()
@@ -44,8 +46,8 @@ function drawRect(x, y, text, isEditable) {
     const width =
         Math.abs(txtMeasure.actualBoundingBoxLeft) +
         Math.abs(txtMeasure.actualBoundingBoxRight)
-    console.log(width)
     onSaveTextWidth(width)
+
     const height =
         Math.abs(txtMeasure.actualBoundingBoxAscent) +
         Math.abs(txtMeasure.actualBoundingBoxDescent)
@@ -61,16 +63,70 @@ function onAddLine() {
     renderMeme()
 }
 
-// function onxt(ev) {
-//     console.log(ev.offsetX, ev.offsetY)
-// }
+function onCanvasClick(ev) {
+    console.log(ev.offsetX, ev.offsetY)
+    const pos = {
 
-function onSwitchLine() {
-    setLineIdx()
-    const elTxt = document.querySelector('.txt-input')
-    elTxt.value = ''
+        x: ev.offsetX,
+        y: ev.offsetY,
+
+    }
+    if (!isTextBoxClicked(pos)) return
     renderMeme()
 }
+function onSwitchLine() {
+    setLineIdx()
+    renderMeme()
+}
+
+// function addEventListenrs() {
+//     addMouseEvents()
+// }
+
+// function addMouseEvents() {
+//     gElCanvas.addEventListener('mousedown', onDown)
+//     gElCanvas.addEventListener('mousemove', onMove)
+//     gElCanvas.addEventListener('mouseup', onUp)
+// }
+
+
+
+// function onDown(ev) {
+// const pos = getEvPos(ev)
+// console.log(pos)
+// if (!isTextBoxClicked(pos)) return
+// renderMeme()
+// gStartPos = pos
+// document.body.style.cursor = 'grabbing'
+// }
+
+// function onMove(ev) {
+
+// const meme = getMeme()
+// if (!meme.lines[meme.selectedLineIdx].isDragable) return
+
+// const pos = getEvPos(ev)
+// const dx = pos.x - gStartPos.x
+// const dy = pos.y - gStartPos.y
+
+// moveLine(dx, dy)
+// gStartPos = pos
+
+// renderMeme()
+// }
+
+// function onUp(ev) {
+// console.log('onUp')
+// setDragOff()
+// }
+
+// function getEvPos(ev) {
+//     let pos = {
+//         x: ev.offsetX,
+//         y: ev.offsetY,
+//     }
+//     return pos
+// }
 
 function onInputVal(inpuVal) {
     setLineTxt(inpuVal)
@@ -92,22 +148,34 @@ function onDecreaseFont() {
     renderMeme()
 }
 
-function preperDownLoad() {
+function prepearDownLoad() {
     const memes = getMeme()
     memes.lines.forEach(meme => {
         meme.isEditable = false
+        renderMeme()
     })
-    renderMeme()
+    gIsDownloadReady = true
 }
 
 function downloadImg(elLink) {
-    preperDownLoad()
+    prepearDownLoad()
+    // setTimeout(() => {
+    // if (gIsDownloadReady) {
+
     const dataUrl = gElCanvas.toDataURL()
     elLink.href = dataUrl
     elLink.download = 'my-img'
+    // }
+    // }, 3000);
 }
 
 function onSaveTextWidth(width) {
     saveTextWidth(width)
+}
+
+function resizeCanvas() {
+    const elContainer = document.querySelector('.canvas-container')
+    gElCanvas.width = elContainer.offsetWidth
+    gElCanvas.height = elContainer.offsetHeight
 }
 

@@ -1,6 +1,6 @@
 'use strict'
 
-var gMeme = {
+let gMeme = {
     selectedImgId: 5,
     selectedLineIdx: 0,
     lines: [
@@ -16,7 +16,6 @@ function getMeme() {
 }
 
 function _createLine(x, y, isEditable = false) {
-
     return {
         x,
         y,
@@ -24,7 +23,8 @@ function _createLine(x, y, isEditable = false) {
         size: 30,
         color: 'white',
         isEditable,
-        // width
+        width: 281.4111328125,
+        isDragable: false
     }
 }
 
@@ -74,6 +74,49 @@ function setLineIdx() {
 }
 
 function saveTextWidth(width) {
-    console.log(width)
-    return width
+    gMeme.lines[gMeme.selectedLineIdx].width = width
 }
+
+function isTextBoxClicked(pos) {
+
+    const clickedLine = gMeme.lines.find(line => {
+        return pos.x >= line.x && pos.x <= line.x + line.width
+            && pos.y >= line.y && pos.y <= line.y + line.size
+    })
+    if (!clickedLine) {
+        return false
+    } else {
+        findLineIdx(clickedLine)
+        return true
+    }
+}
+
+function findLineIdx(lineClicked) {
+    const idx = gMeme.lines.findIndex(line => {
+        return lineClicked.x === line.x && lineClicked.y === line.y
+    })
+    gMeme.selectedLineIdx = idx
+    gMeme.lines.forEach(line => {
+        line.isEditable = false
+    })
+    gMeme.lines[idx].isEditable = true
+    // setDraginLine(true, idx)
+}
+
+// function setDraginLine(isDrag, idx) {
+//     gMeme.lines[idx].isDragable = isDrag
+// }
+
+// function moveLine(dx, dy) {
+//     let { x, y } = gMeme.lines[gMeme.selectedLineIdx]
+//     x += dx
+//     y += dy
+// }
+
+// function setDragOff() {
+//     gMeme.lines[gMeme.selectedLineIdx].isDragable = false
+
+// }
+
+
+
