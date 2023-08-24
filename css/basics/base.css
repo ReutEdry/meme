@@ -1,0 +1,13 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: rgba(187, 241, 241, 0.758);
+    background: linear-gradient(white, rgb(90, 158, 218), rgb(93, 182, 206));
+}
+
+.hide {
+    display: none;
+}

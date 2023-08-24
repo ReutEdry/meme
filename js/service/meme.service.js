@@ -4,20 +4,8 @@ var gMeme = {
     selectedImgId: 5,
     selectedLineIdx: 0,
     lines: [
-        {
-            x: 45,
-            y: 32,
-            txt: 'Write something funny',
-            size: 30,
-            color: 'white'
-        },
-        {
-            x: 45,
-            y: 368,
-            txt: 'Write something funny',
-            size: 30,
-            color: 'white'
-        },
+        _createLine(45, 32, true),
+        _createLine(45, 368)
     ]
 }
 
@@ -25,6 +13,19 @@ var gKeywordSearchCountMap = { 'funny': 12, 'cat': 16, 'baby': 2 }
 
 function getMeme() {
     return gMeme
+}
+
+function _createLine(x, y, isEditable = false) {
+
+    return {
+        x,
+        y,
+        txt: 'Write something funny',
+        size: 30,
+        color: 'white',
+        isEditable,
+        // width
+    }
 }
 
 function setImgIdSeleted(id) {
@@ -40,11 +41,10 @@ function setTxtColor(clrVal) {
 }
 
 function setDefaultLineDesign() {
-    gMeme.lines.forEach(line => {
-        line.txt = 'Write something funny'
-        line.color = 'white'
-        line.size = 30
-    })
+    gMeme.lines = [
+        _createLine(45, 32, true),
+        _createLine(45, 368)
+    ]
 }
 
 function setIncreaseFontSize() {
@@ -56,17 +56,24 @@ function setDecreaseFontSize() {
 }
 
 function addLine() {
-    gMeme.lines.push({
-        x: 45,
-        y: 210,
-        txt: 'Write something funny',
-        size: 30,
-        color: 'white'
-        ,
-    })
+    gMeme.lines.push(_createLine(45, 210))
 }
 
 function setLineIdx() {
     gMeme.selectedLineIdx++
-    if (gMeme.selectedLineIdx === gMeme.lines.length) gMeme.selectedLineIdx = 0
+    let { selectedLineIdx, lines } = gMeme
+    if (selectedLineIdx === lines.length) {
+        lines[selectedLineIdx - 1].isEditable = false
+        gMeme.selectedLineIdx = 0
+        lines[0].isEditable = true
+    } else {
+        lines[0].isEditable = false
+        lines[selectedLineIdx].isEditable = true
+        lines[selectedLineIdx - 1].isEditable = false
+    }
+}
+
+function saveTextWidth(width) {
+    console.log(width)
+    return width
 }

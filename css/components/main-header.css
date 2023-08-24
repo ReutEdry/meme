@@ -1,0 +1,27 @@
+.main-header {
+    height: 120px;
+    background-color: rgb(96, 169, 224);
+    align-items: center;
+    padding: .5em 4em;
+}
+
+.main-header .logo {
+    font-size: 2em;
+    font-weight: bold;
+    color: rgb(48, 83, 102);
+    /* text-transform: uppercase; */
+}
+
+.main-header a {
+    font-size: 1.3125em;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-inline-start: 1.5em;
+    text-decoration: none;
+    color: rgb(48, 83, 102);
+}
+
+.main-header a:hover {
+    color: rgb(73, 114, 120);
+    box-shadow: inset 0px -6px 0 rgb(142, 145, 174);
+}

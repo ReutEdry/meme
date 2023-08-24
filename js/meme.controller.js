@@ -15,6 +15,7 @@ function renderMeme() {
         gCtx.drawImage(elImg, 0, 0, gElCanvas.width, gElCanvas.height)
         meme.lines.forEach(line => {
             onDrawTxt(line.x, line.y, line.txt, line.size, line.color)
+            drawRect(line.x, line.y, line.txt, line.isEditable)
         })
     }
 }
@@ -30,12 +31,29 @@ function onDrawTxt(x, y, text, size, color) {
     gCtx.strokeText(text, x, y)
 }
 
+function drawRect(x, y, text, isEditable) {
+    if (!isEditable) return
+    const txtMeasure = gCtx.measureText(text)
+    const bounds = {
+        top: y - txtMeasure.actualBoundingBoxAscent,
+        right: x + txtMeasure.actualBoundingBoxRight,
+        bottom: y + txtMeasure.actualBoundingBoxDescent,
+        left: x - txtMeasure.actualBoundingBoxLeft
+    }
 
-function drawRect(x, y) {
-    gCtx.strokeStyle = 'brown'
-    gCtx.strokeRect(x, y, 120, 120)
-    gCtx.fillStyle = 'orange'
-    gCtx.fillRect(x, y, 120, 120)
+    const width =
+        Math.abs(txtMeasure.actualBoundingBoxLeft) +
+        Math.abs(txtMeasure.actualBoundingBoxRight)
+    console.log(width)
+    onSaveTextWidth(width)
+    const height =
+        Math.abs(txtMeasure.actualBoundingBoxAscent) +
+        Math.abs(txtMeasure.actualBoundingBoxDescent)
+
+    gCtx.strokeStyle = 'black'
+    gCtx.fillStyle = "rgba(0, 0, 200, 0)"
+    gCtx.strokeRect(bounds.left, bounds.top, width, height)
+    gCtx.fillRect(bounds.left, bounds.top, width, height)
 }
 
 function onAddLine() {
@@ -51,17 +69,12 @@ function onSwitchLine() {
     setLineIdx()
     const elTxt = document.querySelector('.txt-input')
     elTxt.value = ''
+    renderMeme()
 }
 
 function onInputVal(inpuVal) {
     setLineTxt(inpuVal)
     renderMeme()
-}
-
-function downloadImg(elLink) {
-    const dataUrl = gElCanvas.toDataURL()
-    elLink.href = dataUrl
-    elLink.download = 'my-img'
 }
 
 function onSetTextColor(clrVal) {
@@ -78,3 +91,23 @@ function onDecreaseFont() {
     setDecreaseFontSize()
     renderMeme()
 }
+
+function preperDownLoad() {
+    const memes = getMeme()
+    memes.lines.forEach(meme => {
+        meme.isEditable = false
+    })
+    renderMeme()
+}
+
+function downloadImg(elLink) {
+    preperDownLoad()
+    const dataUrl = gElCanvas.toDataURL()
+    elLink.href = dataUrl
+    elLink.download = 'my-img'
+}
+
+function onSaveTextWidth(width) {
+    saveTextWidth(width)
+}
+

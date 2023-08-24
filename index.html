@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reut's meme</title>
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body onload="onInit()">
 
-    <header class="main-header">
-        <div class="logo">Meme</div>
+    <header class="main-header flex space-between">
+        <div class="logo">Meme Generator</div>
         <nav class="main-nav">
-            <ul>
+            <ul class="flex clean-list">
                 <li><a href="">Gallery</a></li>
                 <li><a href="">Mems</a></li>
                 <li><a href="">About</a></li>
@@ -21,25 +21,27 @@
         </nav>
     </header>
 
-    <section class="meme-editor">
-        <div class="editing-sec"></div>
-        <canvas width="400" height="400" onclick="onxt(event)"></canvas>
+    <section class="canvas-container hide">
+        <article class="meme-editor">
+            <div class="editing-sec"></div>
+            <canvas width="400" height="400" onclick="onxt(event)"></canvas>
+        </article>
+
+        <article class="tool-bar">
+            <input class="txt-input" type="text" placeholder="Write your meme text" oninput="onInputVal(this.value)">
+            <button onclick="onIncreaseFont()">A+</button>
+            <button onclick="onDecreaseFont()">A-</button>
+            <input type="color" name="bgcColor" onchange="onSetTextColor(this.value)">
+            <button class="add-line" onclick="onAddLine()">Add Line</button>
+            <button class="switch-line" onclick="onSwitchLine()">🡙</button>
+            <a href="#" class="btn" onclick="downloadImg(this)" download="my-img">Download</a>
+        </article>
     </section>
 
-    <section class="tool-bar">
-        <input class="txt-input" type="text" placeholder="Write your meme text" oninput="onInputVal(this.value)">
-        <button onclick="onIncreaseFont()">A+</button>
-        <button onclick="onDecreaseFont()">A-</button>
-        <input type="color" name="bgcColor" onchange="onSetTextColor(this.value)">
-        <button class="add-line" onclick="onAddLine()">Add Line</button>
-        <button class="switch-line" onclick="onSwitchLine()">🡙</button>
-        <a href="#" class="btn" onclick="downloadImg(this)" download="my-img">Download</a>
-    </section>
 
-
-    <section class="galley-Container">
-        <h1>select an image</h1>
-        <div class="galley-img"></div>
+    <section class="gallery-container">
+        <h1 class="gallery-header">Select an image</h1>
+        <div class="gallery-img"></div>
     </section>
 
     <script src="js/service/util.js"></script>
