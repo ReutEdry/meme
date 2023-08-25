@@ -4,6 +4,7 @@ let gElCanvas
 let gCtx
 let gImgById
 let gStartPos
+const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
 // let gIsDownloadReady = false
 
 function renderMeme() {
@@ -16,24 +17,24 @@ function renderMeme() {
         gElCanvas.height = (elImg.naturalHeight / elImg.naturalWidth) * gElCanvas.width
         gCtx.drawImage(elImg, 0, 0, gElCanvas.width, gElCanvas.height)
         meme.lines.forEach(line => {
-            onDrawTxt(line.x, line.y, line.txt, line.size, line.color)
-            drawRect(line.x, line.y, line.txt, line.isEditable)
+            onDrawTxt(line.x, line.y, line.txt, line.size, line.bgClr, line.font)
+            drawRect(line.x, line.y, line.txt, line.isEditable, line.borderClr)
         })
     }
 }
 
-function onDrawTxt(x, y, text, size, color) {
+function onDrawTxt(x, y, text, size, bgClr, font) {
     gCtx.lineWidth = 2
-    gCtx.strokeStyly = 'black'
-    gCtx.fillStyle = color
-    gCtx.font = `${size}px Impact`
+    gCtx.strokeStyle = 'black'
+    gCtx.fillStyle = bgClr
+    gCtx.font = `${size}px ${font}`
     gCtx.textBaseline = 'middle'
 
     gCtx.fillText(text, x, y)
     gCtx.strokeText(text, x, y)
 }
 
-function drawRect(x, y, text, isEditable) {
+function drawRect(x, y, text, isEditable, borderClr) {
     if (!isEditable) return
     const txtMeasure = gCtx.measureText(text)
     const bounds = {
@@ -52,8 +53,9 @@ function drawRect(x, y, text, isEditable) {
         Math.abs(txtMeasure.actualBoundingBoxAscent) +
         Math.abs(txtMeasure.actualBoundingBoxDescent)
 
-    gCtx.strokeStyle = 'black'
+    gCtx.strokeStyle = borderClr
     gCtx.fillStyle = "rgba(0, 0, 200, 0)"
+
     gCtx.strokeRect(bounds.left, bounds.top, width, height)
     gCtx.fillRect(bounds.left, bounds.top, width, height)
 }
@@ -63,77 +65,91 @@ function onAddLine() {
     renderMeme()
 }
 
-function onCanvasClick(ev) {
-    console.log(ev.offsetX, ev.offsetY)
-    const pos = {
-
-        x: ev.offsetX,
-        y: ev.offsetY,
-
-    }
-    if (!isTextBoxClicked(pos)) return
-    renderMeme()
-}
 function onSwitchLine() {
     setLineIdx()
     renderMeme()
 }
 
-// function addEventListenrs() {
-//     addMouseEvents()
-// }
+function onCanvasClick(ev) {
+    // const pos = {
+    //     x: ev.offsetX,
+    //     y: ev.offsetY,
+    // }
 
-// function addMouseEvents() {
-//     gElCanvas.addEventListener('mousedown', onDown)
-//     gElCanvas.addEventListener('mousemove', onMove)
-//     gElCanvas.addEventListener('mouseup', onUp)
-// }
+    // if (!isTextBoxClicked(pos)) return
+    // renderMeme()
+    // console.log(ev.offsetX, ev.offsetY)
+}
 
+function addEventListenrs() {
+    addMouseEvents()
+    addTouchListeners()
+}
 
+function addTouchListeners() {
+    gElCanvas.addEventListener('touchstart', onDown)
+    gElCanvas.addEventListener('touchmove', onMove)
+    gElCanvas.addEventListener('touchend', onUp)
+}
 
-// function onDown(ev) {
-// const pos = getEvPos(ev)
-// console.log(pos)
-// if (!isTextBoxClicked(pos)) return
-// renderMeme()
-// gStartPos = pos
-// document.body.style.cursor = 'grabbing'
-// }
+function addMouseEvents() {
+    gElCanvas.addEventListener('mousedown', onDown)
+    gElCanvas.addEventListener('mousemove', onMove)
+    gElCanvas.addEventListener('mouseup', onUp)
+}
 
-// function onMove(ev) {
+function onDown(ev) {
+    const pos = getEvPos(ev)
+    if (!isTextBoxClicked(pos)) return
+    setDraginLine(true)
+    renderMeme()
+    gStartPos = pos
+    document.body.style.cursor = 'grabbing'
+}
 
-// const meme = getMeme()
-// if (!meme.lines[meme.selectedLineIdx].isDragable) return
+function onMove(ev) {
 
-// const pos = getEvPos(ev)
-// const dx = pos.x - gStartPos.x
-// const dy = pos.y - gStartPos.y
+    const meme = getMeme()
+    if (!meme.lines[meme.selectedLineIdx].isDragable) return
 
-// moveLine(dx, dy)
-// gStartPos = pos
+    const pos = getEvPos(ev)
+    const dx = pos.x - gStartPos.x
+    const dy = pos.y - gStartPos.y
 
-// renderMeme()
-// }
+    moveLine(dx, dy)
+    gStartPos = pos
 
-// function onUp(ev) {
-// console.log('onUp')
-// setDragOff()
-// }
+    renderMeme()
+}
 
-// function getEvPos(ev) {
-//     let pos = {
-//         x: ev.offsetX,
-//         y: ev.offsetY,
-//     }
-//     return pos
-// }
+function onUp(ev) {
+    setDraginLine(false)
+    document.body.style.cursor = 'grab'
+}
+
+function getEvPos(ev) {
+    let pos = {
+        x: ev.offsetX,
+        y: ev.offsetY,
+    }
+
+    if (TOUCH_EVS.includes(ev.type)) {
+        ev.preventDefault()
+        ev = ev.changedTouches[0]
+        pos = {
+            x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
+            y: ev.pageY - ev.target.offsetTop - ev.target.clientTop,
+        }
+    }
+    return pos
+}
 
 function onInputVal(inpuVal) {
     setLineTxt(inpuVal)
     renderMeme()
 }
 
-function onSetTextColor(clrVal) {
+function onSetBgcTextColor(clrVal) {
     setTxtColor(clrVal)
     renderMeme()
 }
@@ -173,9 +189,93 @@ function onSaveTextWidth(width) {
     saveTextWidth(width)
 }
 
-function resizeCanvas() {
-    const elContainer = document.querySelector('.canvas-container')
-    gElCanvas.width = elContainer.offsetWidth
-    gElCanvas.height = elContainer.offsetHeight
+// function resizeCanvas() {
+//     const elContainer = document.querySelector('.canvas-container')
+//     gElCanvas.width = elContainer.offsetWidth
+//     gElCanvas.height = elContainer.offsetHeight
+// }
+
+function onDeleteLine() {
+    deleteLine()
+    renderMeme()
+}
+
+function onSetBorderTextColor(value) {
+    SetBorderTextColor(value)
+    renderMeme()
+}
+
+function onMoveLineDown() {
+    moveLineDown()
+    renderMeme()
+}
+
+function onMoveLineUp() {
+    moveLineUp()
+    renderMeme()
+}
+
+function onMoveLineRight() {
+    moveLineRight()
+    renderMeme()
+}
+
+function onMoveLineLeft() {
+    moveLineLeft()
+    renderMeme()
+}
+
+function onSetTextToMiddle() {
+    setTextToMiddle()
+    renderMeme()
+}
+
+function onSetTextToCenter() {
+    setTextToCenter()
+    renderMeme()
+}
+
+function onSetTextLeft() {
+    setTextLeft()
+    renderMeme()
+}
+
+function onSetTextRight() {
+    setTextRight()
+    renderMeme()
+}
+
+function onFontChange(fontVal) {
+    setFontChange(fontVal)
+    renderMeme()
+}
+
+// sharing on facebook
+function onUploadImg() {
+    const imgDataUrl = gElCanvas.toDataURL('image/jpeg')
+
+    function onSuccess(uploadedImgUrl) {
+        const url = encodeURIComponent(uploadedImgUrl)
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&t=${url}`)
+    }
+    doUploadImg(imgDataUrl, onSuccess)
+}
+
+function doUploadImg(imgDataUrl, onSuccess) {
+    const formData = new FormData()
+    formData.append('img', imgDataUrl)
+    const XHR = new XMLHttpRequest()
+    XHR.onreadystatechange = () => {
+        if (XHR.readyState !== XMLHttpRequest.DONE) return
+        if (XHR.status !== 200) return console.error('Error uploading image')
+        const { responseText: url } = XHR
+        console.log('Got back live url:', url)
+        onSuccess(url)
+    }
+    XHR.onerror = (req, ev) => {
+        console.error('Error connecting to server with request:', req, '\nGot response data:', ev)
+    }
+    XHR.open('POST', '//ca-upload.com/here/upload.php')
+    XHR.send(formData)
 }
 

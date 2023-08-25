@@ -3,13 +3,13 @@
     background-color: rgb(96, 169, 224);
     align-items: center;
     padding: .5em 4em;
+    border-radius: 25px;
 }
 
 .main-header .logo {
     font-size: 2em;
     font-weight: bold;
     color: rgb(48, 83, 102);
-    /* text-transform: uppercase; */
 }
 
 .main-header a {
@@ -17,11 +17,20 @@
     font-weight: bold;
     text-transform: uppercase;
     margin-inline-start: 1.5em;
-    text-decoration: none;
+    background: transparent;
     color: rgb(48, 83, 102);
+    position: relative;
+    border-radius: 0.5rem;
 }
 
 .main-header a:hover {
-    color: rgb(73, 114, 120);
-    box-shadow: inset 0px -6px 0 rgb(142, 145, 174);
+    color: rgb(92, 120, 203);
+
+    box-shadow: 10px 10px 15px -3px #488aec4f, 10px 4px 6px -2px #488aec17;
+    transition-delay: .2s;
 }
+
+/* .main-header a.selected {
+    color: rgb(116, 187, 198);
+    transition-delay: .2s;
+} */

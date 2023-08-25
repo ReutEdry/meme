@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reut's meme</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://kit.fontawesome.com/4293d7fb44.js" crossorigin="anonymous"></script>
 </head>
 
 <body onload="onInit()">
@@ -14,14 +15,17 @@
         <div class="logo">Meme Generator</div>
         <nav class="main-nav">
             <ul class="flex clean-list">
-                <li><a href="">Gallery</a></li>
-                <li><a href="">Mems</a></li>
-                <li><a href="">About</a></li>
+                <li><a class="gallery none-decoration" onclick="onGalleryLinkClick(event)" href="">Gallery</a></li>
+                <li><a class="my-memes none-decoration" onclick="onSavedImgGaller(event)" href="">My Mems</a>
+                </li>
+                <li><a class="about none-decoration" href="">About</a></li>
             </ul>
         </nav>
     </header>
 
-    <section class="meme-editor hide">
+    <section class="savedImgContainer hide"></section>
+
+    <section class="meme-editor">
         <article class="canvas-container">
             <div class="editing-sec"></div>
             <canvas width="400" height="400" onclick="onCanvasClick(event)"></canvas>
@@ -29,33 +33,74 @@
 
         <article class="tool-bar">
             <div>
-
                 <input class="txt-input" type="text" placeholder="Write your meme text"
                     oninput="onInputVal(this.value)">
-                <button onclick="onIncreaseFont()">A+</button>
-                <button onclick="onDecreaseFont()">A-</button>
+                <select class="font-selecting" onchange="onFontChange(this.value)">
+                    <option value="">Select Font</option>
+                    <option value="Impact">Impact</option>
+                    <option value="cursive">cursive</option>
+                    <option value="sans-serif">sans-serif</option>
+                </select>
+            </div>
+            <div class="colors">
+                <label>Bg-color</label>
+                <input class="color bgc" value="#ffffff" type="color" name="bgcColor"
+                    onchange="onSetBgcTextColor(this.value)">
+                <label>Border-color</label>
+                <input class="color txt" type="color" name="borderColor" onchange="onSetBorderTextColor(this.value)">
             </div>
             <div>
-
-                <input type="color" name="bgcColor" onchange="onSetTextColor(this.value)">
-                <button class="add-line" onclick="onAddLine()">Add Line</button>
-                <button class="switch-line" onclick="onSwitchLine()">🡙</button>
-                <a href="#" class="btn" onclick="downloadImg(this)" download="my-img">Download</a>
+                <button onclick="onIncreaseFont()">A+</button>
+                <button onclick="onDecreaseFont()">A-</button>
+                <button title="switch line" class="switch-line" onclick="onSwitchLine()"><i
+                        class="fa-solid fa-up-down"></i></button>
+                <button onclick="onMoveLineDown()" title="move line down"><i
+                        class="fa-solid fa-arrow-down"></i></button>
+                <button onclick="onMoveLineUp()" title="move line up"><i class="fa-solid fa-arrow-up"></i></button>
+                <button onclick="onMoveLineRight()"><i class="fa-solid fa-arrow-right"></i></button>
+                <button onclick="onMoveLineLeft()"><i class="fa-solid fa-arrow-left"></i></button>
+            </div>
+            <div>
+                <button title="middle of canvas" onclick="onSetTextToMiddle()">Middle</button>
+                <button onclick="onSetTextToCenter()"><i class="fa-solid fa-align-justify"></i></button>
+                <button onclick="onSetTextLeft()"><i class="fa-solid fa-align-left"></i></button>
+                <button onclick="onSetTextRight()"><i class="fa-solid fa-align-right"></i></button>
+            </div>
+            <div>
+                <button title="delete line" onclick="onDeleteLine()"><i class="fa-solid fa-trash-can"></i></button>
+                <button class="goToGallery" onclick="backToGallery()"><i
+                        class="fa-regular fa-circle-xmark"></i></button>
+                <button class="add-line" onclick="onAddLine()"><i class="fa-solid fa-circle-plus"></i></button>
+            </div>
+            <div>
+                <button>
+                    <a href="#" class="download none-decoration" onclick="downloadImg(this)"
+                        download="my-img">Download</a>
+                </button>
+                <button class="facebook-share" onclick="onUploadImg()">
+                    Share On Facebook
+                </button>
+                <button title="save your meme" onclick="OnSaveImg()"><i class="fa-regular fa-folder"></i></button>
             </div>
         </article>
     </section>
 
 
-    <section class="gallery-container">
-        <h1 class="gallery-header">Select an image</h1>
+    <section class="gallery-container hide">
+        <div class="gallery-headers">
+            <h1 class="gallery-h1">Select an image</h1>
+            <button class="flexibale-btn" onclick="onRandomPickImg()">I'm flexible</button>
+        </div>
         <div class="gallery-img"></div>
     </section>
 
     <script src="js/service/util.js"></script>
     <script src="js/service/gallery.service.js"></script>
     <script src="js/service/meme.service.js"></script>
+    <script src="js/service/savedMemes.service.js"></script>
     <script src="js/gallery.controller.js"></script>
     <script src="js/meme.controller.js"></script>
+    <script src="js/savedMemes.controller.js"></script>
 </body>
 
 </html>

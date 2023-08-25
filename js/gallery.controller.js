@@ -4,7 +4,7 @@ function onInit() {
     renderGallery()
     gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
-    // addEventListenrs()
+    addEventListenrs()
     // resizeCanvas()
 }
 
@@ -34,4 +34,28 @@ function setPassingToMemeDesign() {
     elGalleryContainer.classList.add('hide')
     const elCanvasContainer = document.querySelector('.meme-editor')
     elCanvasContainer.classList.remove('hide')
+}
+
+function onRandomPickImg() {
+    const imgs = getImgs()
+    const randNum = getRandomIntInclusive(1, imgs.length)
+    setImgIdSeleted(randNum)
+    setPassingToMemeDesign()
+    renderMeme()
+}
+
+function backToGallery() {
+    const elGalleryContainer = document.querySelector('.gallery-container')
+    elGalleryContainer.classList.remove('hide')
+    const elCanvasContainer = document.querySelector('.meme-editor')
+    elCanvasContainer.classList.add('hide')
+    onSetDefualtFeatures()
+}
+
+function onGalleryLinkClick(ev) {
+    ev.preventDefault()
+    const elGalleryContainer = document.querySelector('.gallery-container')
+    elGalleryContainer.classList.remove('hide')
+    const elCanvasContainer = document.querySelector('.meme-editor')
+    elCanvasContainer.classList.add('hide')
 }

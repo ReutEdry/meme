@@ -19,11 +19,13 @@ function _createLine(x, y, isEditable = false) {
     return {
         x,
         y,
+        width: 281.4111328125,
         txt: 'Write something funny',
         size: 30,
-        color: 'white',
+        font: 'Impact',
+        bgClr: 'white',
+        borderClr: 'black',
         isEditable,
-        width: 281.4111328125,
         isDragable: false
     }
 }
@@ -37,7 +39,11 @@ function setLineTxt(inputVal) {
 }
 
 function setTxtColor(clrVal) {
-    gMeme.lines[gMeme.selectedLineIdx].color = clrVal
+    gMeme.lines[gMeme.selectedLineIdx].bgClr = clrVal
+}
+
+function SetBorderTextColor(clrVal) {
+    gMeme.lines[gMeme.selectedLineIdx].borderClr = clrVal
 }
 
 function setDefaultLineDesign() {
@@ -56,7 +62,9 @@ function setDecreaseFontSize() {
 }
 
 function addLine() {
-    gMeme.lines.push(_createLine(45, 210))
+    gMeme.lines.push(_createLine(45, 210, true))
+    gMeme.lines[gMeme.selectedLineIdx].isEditable = false
+    gMeme.selectedLineIdx = gMeme.lines.length - 1
 }
 
 function setLineIdx() {
@@ -73,16 +81,16 @@ function setLineIdx() {
     }
 }
 
-function saveTextWidth(width) {
-    gMeme.lines[gMeme.selectedLineIdx].width = width
+function saveTextWidth(txtWidth) {
+    gMeme.lines[gMeme.selectedLineIdx].width = txtWidth
 }
 
 function isTextBoxClicked(pos) {
-
     const clickedLine = gMeme.lines.find(line => {
         return pos.x >= line.x && pos.x <= line.x + line.width
-            && pos.y >= line.y && pos.y <= line.y + line.size
+            && pos.y >= (line.y - (0.5 * line.size)) && pos.y <= (line.y + (0.5 * line.size))
     })
+
     if (!clickedLine) {
         return false
     } else {
@@ -96,27 +104,70 @@ function findLineIdx(lineClicked) {
         return lineClicked.x === line.x && lineClicked.y === line.y
     })
     gMeme.selectedLineIdx = idx
+
     gMeme.lines.forEach(line => {
         line.isEditable = false
     })
-    gMeme.lines[idx].isEditable = true
-    // setDraginLine(true, idx)
+    gMeme.lines[gMeme.selectedLineIdx].isEditable = true
 }
 
-// function setDraginLine(isDrag, idx) {
-//     gMeme.lines[idx].isDragable = isDrag
-// }
+function setDraginLine(isDrag) {
+    gMeme.lines[gMeme.selectedLineIdx].isDragable = isDrag
+}
 
-// function moveLine(dx, dy) {
-//     let { x, y } = gMeme.lines[gMeme.selectedLineIdx]
-//     x += dx
-//     y += dy
-// }
+function moveLine(dx, dy) {
+    const line = gMeme.lines[gMeme.selectedLineIdx]
+    line.x += dx
+    line.y += dy
+}
 
-// function setDragOff() {
-//     gMeme.lines[gMeme.selectedLineIdx].isDragable = false
+function deleteLine() {
+    gMeme.lines.forEach((line, idx) => {
+        if (line.isEditable) {
+            gMeme.lines.splice(idx, 1)
+        }
+    })
+}
 
-// }
+function moveLineDown() {
+    gMeme.lines[gMeme.selectedLineIdx].y += 10
+}
 
+function moveLineUp() {
+    gMeme.lines[gMeme.selectedLineIdx].y -= 10
+}
 
+function moveLineRight() {
+    gMeme.lines[gMeme.selectedLineIdx].x += 10
+
+}
+
+function moveLineLeft() {
+    gMeme.lines[gMeme.selectedLineIdx].x -= 10
+
+}
+
+function setTextToMiddle() {
+    gMeme.lines[gMeme.selectedLineIdx].y = 200
+    gMeme.lines[gMeme.selectedLineIdx].x = 200 - (gMeme.lines[gMeme.selectedLineIdx].width / 2)
+}
+
+function setTextToCenter() {
+    gMeme.lines[gMeme.selectedLineIdx].x = 200 - (gMeme.lines[gMeme.selectedLineIdx].width / 2)
+}
+
+function setTextLeft() {
+    gMeme.lines[gMeme.selectedLineIdx].x = 10
+}
+
+function setTextRight() {
+    gMeme.lines[gMeme.selectedLineIdx].x = 390 - (gMeme.lines[gMeme.selectedLineIdx].width)
+}
+
+function setFontChange(fontVal) {
+    // i did not do !fontVal because i wanted to know if it is an 
+    // empty string
+    if (fontVal === undefined) fontVal = 'Impact'
+    gMeme.lines[gMeme.selectedLineIdx].font = fontVal
+}
 
