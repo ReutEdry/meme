@@ -15,7 +15,8 @@
         <div class="logo">Meme Generator</div>
         <nav class="main-nav">
             <ul class="flex clean-list">
-                <li><a class="gallery none-decoration" onclick="onGalleryLinkClick(event)" href="">Gallery</a></li>
+                <li><a class="gallery none-decoration" onclick="onGalleryLinkClick(event)" href="">Gallery</a>
+                <li>
                 <li><a class="my-memes none-decoration" onclick="onSavedImgGaller(event)" href="">My Mems</a>
                 </li>
                 <li><a class="about none-decoration" href="">About</a></li>
@@ -25,7 +26,7 @@
 
     <section class="savedImgContainer hide"></section>
 
-    <section class="meme-editor">
+    <section class="meme-editor hide">
         <article class="canvas-container">
             <div class="editing-sec"></div>
             <canvas width="400" height="400" onclick="onCanvasClick(event)"></canvas>
@@ -85,8 +86,7 @@
         </article>
     </section>
 
-
-    <section class="gallery-container hide">
+    <section class="gallery-container ">
         <div class="gallery-headers">
             <h1 class="gallery-h1">Select an image</h1>
             <button class="flexibale-btn" onclick="onRandomPickImg()">I'm flexible</button>

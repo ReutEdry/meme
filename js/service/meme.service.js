@@ -35,6 +35,7 @@ function setImgIdSeleted(id) {
 }
 
 function setLineTxt(inputVal) {
+    if (!gMeme.lines.length) return
     gMeme.lines[gMeme.selectedLineIdx].txt = inputVal
 }
 
@@ -127,6 +128,11 @@ function deleteLine() {
             gMeme.lines.splice(idx, 1)
         }
     })
+    if (!gMeme.lines.length) return
+    if (gMeme.selectedLineIdx === gMeme.lines.length) {
+        gMeme.selectedLineIdx = 0
+    }
+    gMeme.lines[gMeme.selectedLineIdx].isEditable = true
 }
 
 function moveLineDown() {

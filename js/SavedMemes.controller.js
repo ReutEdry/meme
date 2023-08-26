@@ -8,14 +8,12 @@ function renderSavedImgs() {
     } else {
         strHtmls = `<img data-id="${imgs.id}" src="Img/${imgs.id}.jpg" onclick="onSelectMemeImg(this)" alt="">`
     }
-    console.log(strHtmls)
     const elImgsContainer = document.querySelector('.savedImgContainer')
     elImgsContainer.innerHTML = strHtmls
 }
 
 function onSavedImgGaller(ev) {
     ev.preventDefault()
-
     showOnlySavedImg()
     // renderSavedImgs()
 }

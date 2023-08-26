@@ -1,5 +1,5 @@
-.meme-editor {
-    display: grid;
+/* .meme-editor { */
+/* display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     width: 850px;
     height: 450px;
@@ -8,16 +8,22 @@
     padding: 1em;
     border-radius: 30px;
     align-items: center;
-    position: relative;
-}
+    position: relative; */
+/* } */
 
-.tool-bar {
+/* .tool-bar {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 20px;
+} */
+
+
+.meme-editor {
+    border-radius: 30px;
 }
+
 
 .hide {
     display: none;
@@ -114,8 +120,6 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: 0;
-    right: -0.5%;
     width: 25px;
     height: 25px;
 }
