@@ -1,26 +1,28 @@
 'use strict'
-
+const SAVED_IMGS_KEY = 'savedImgsDB'
+let gSavedMemes = []
 let gMeme = {
     selectedImgId: 5,
     selectedLineIdx: 0,
     lines: [
         _createLine(45, 32, true),
         _createLine(45, 368)
-    ]
+    ],
+    previewMeme: '',
 }
 
-var gKeywordSearchCountMap = { 'funny': 12, 'cat': 16, 'baby': 2 }
+var gKeywordSearchCountMap = { 'funny': 12, 'cat': 16, 'baby': 10, 'political': 20, 'dog': 20 }
 
 function getMeme() {
     return gMeme
 }
 
-function _createLine(x, y, isEditable = false) {
+function _createLine(x, y, isEditable = false, txt = 'Write something funny') {
     return {
         x,
         y,
         width: 281.4111328125,
-        txt: 'Write something funny',
+        txt,
         size: 30,
         font: 'Impact',
         bgClr: 'white',
@@ -30,7 +32,7 @@ function _createLine(x, y, isEditable = false) {
     }
 }
 
-function setImgIdSeleted(id) {
+function setImgIdSelected(id) {
     gMeme.selectedImgId = id
 }
 
@@ -63,8 +65,9 @@ function setDecreaseFontSize() {
     gMeme.lines[gMeme.selectedLineIdx].size -= 7
 }
 
-function addLine() {
-    gMeme.lines.push(_createLine(45, 210, true))
+function addLine(sticker) {
+    if (!sticker) gMeme.lines.push(_createLine(45, 210, true))
+    else gMeme.lines.push(_createLine(45, 210, true, sticker))
     gMeme.lines[gMeme.selectedLineIdx].isEditable = false
     gMeme.selectedLineIdx = gMeme.lines.length - 1
 }
@@ -187,3 +190,30 @@ function getCurrLineTxt() {
     return textLine
 }
 
+function getSavedImgs() {
+    gSavedMemes = loadFromStorage(SAVED_IMGS_KEY)
+    return gSavedMemes
+}
+
+function savedMemeDataUrl(savedMeme) {
+    console.log(savedMeme)
+    gMeme.previewMeme = savedMeme
+    gSavedMemes.push(gMeme)
+    saveToStorage(SAVED_IMGS_KEY, gSavedMemes)
+}
+
+function updateGmeme(newGmeme) {
+    gMeme = newGmeme
+}
+
+function setPrepearForDownLoad() {
+    gMeme.lines[gMeme.selectedLineIdx].isEditable = false
+}
+
+function getKeyWords() {
+    return gKeywordSearchCountMap
+}
+
+function updateKeyWords(elKeyWord) {
+    gKeywordSearchCountMap[elKeyWord]++
+}

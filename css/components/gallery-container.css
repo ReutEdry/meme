@@ -10,13 +10,6 @@
     padding: 0.5em;
 }
 
-.gallery-container .gallery-h1 {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: rgb(48, 83, 102);
-
-}
-
 .gallery-container .flexibale-btn {
     font-family: inherit;
     font-size: 1em;
@@ -75,4 +68,37 @@
     cursor: pointer;
     scale: 1.2;
     filter: unset;
+}
+
+.gallery-container .keyCount {
+    margin-inline-start: 1em;
+    cursor: pointer;
+}
+
+.gallery-container .keyCount>* {
+    margin-inline-start: 1em;
+}
+
+.gallery-container .keyCount>*:hover {
+    color: rgb(21, 148, 186);
+}
+
+.gallery-container .funny {
+    font-size: 12px;
+}
+
+.gallery-container .cat {
+    font-size: 16px;
+}
+
+.gallery-container .baby {
+    font-size: 10px;
+}
+
+.gallery-container .political {
+    font-size: 20px;
+}
+
+.gallery-container .dog {
+    font-size: 20px;
 }

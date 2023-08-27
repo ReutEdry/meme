@@ -5,6 +5,7 @@ function onInit() {
     gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
     addEventListenrs()
+    onUpdateFontSize()
 }
 
 function renderGallery() {
@@ -14,9 +15,21 @@ function renderGallery() {
     elGalleryContainer.innerHTML = strHtmls.join('')
 }
 
+
+function onKeyWordClick(elKeyWord) {
+    updateKeyWords(elKeyWord.innerText)
+    onUpdateFontSize(elKeyWord.innerText)
+}
+
+function onUpdateFontSize(elKeyWord) {
+    if (!elKeyWord) return
+    const keyWordMap = getKeyWords()
+    document.querySelector(`.${elKeyWord}`).style.fontSize = `${keyWordMap[elKeyWord]}px`
+}
+
 function onSelectMemeImg(elImg) {
     const id = +elImg.dataset.id
-    setImgIdSeleted(id)
+    setImgIdSelected(id)
     setPassingToMemeDesign()
     onSetDefualtFeatures()
     renderMeme()
@@ -30,14 +43,15 @@ function onSetDefualtFeatures() {
 }
 
 function setPassingToMemeDesign() {
-    addClassHide('gallery-container')
     removeClassHide('meme-editor')
+    addClassHide('gallery-container')
+    addClassHide('savedImgContainer')
 }
 
 function onRandomPickImg() {
     const imgs = getImgs()
     const randNum = getRandomIntInclusive(1, imgs.length)
-    setImgIdSeleted(randNum)
+    setImgIdSelected(randNum)
     setPassingToMemeDesign()
     renderMeme()
 }
@@ -45,6 +59,7 @@ function onRandomPickImg() {
 function backToGallery() {
     removeClassHide('gallery-container')
     addClassHide('meme-editor')
+    addClassHide('savedImgContainer')
     onSetDefualtFeatures()
 }
 
@@ -52,6 +67,7 @@ function onGalleryLinkClick(ev) {
     ev.preventDefault()
     removeClassHide('gallery-container')
     addClassHide('meme-editor')
+    addClassHide('savedImgContainer')
 }
 
 function onSetColorDefault() {

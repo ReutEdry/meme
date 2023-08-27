@@ -1,0 +1,23 @@
+.savedImgContainer .savedImgGallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-auto-flow: dense;
+    gap: 10px;
+    columns: 4;
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.savedImgGallery img {
+    display: block;
+    width: 100%;
+    filter: grayscale(0.7);
+}
+
+.savedImgGallery img:hover {
+    z-index: 1;
+    transition: 0.5s;
+    cursor: pointer;
+    scale: 1.2;
+    filter: unset;
+}

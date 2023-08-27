@@ -3,29 +3,49 @@
 function onSavedImgGallery(ev) {
     ev.preventDefault()
     showOnlySavedImg()
-    rendrImgsToMyMemes()
+    renderSavedMeme()
 }
 
-function rendrImgsToMyMemes() {
-    const imgs = getSavedImgs()
-    console.log(imgs)
-    let reader = new FileReader()
-    const strHtmls = imgs.map(img => `<img data-id="${img.gId}" src="Img/${img.url}.jpg" onclick="onSelectMemeImg(this)" alt="">`)
-    console.log(strHtmls)
-    const elGalleryContainer = document.querySelector('.savedImgContainer')
-    elGalleryContainer.innerHTML = strHtmls.join('')
-
+function renderSavedMeme() {
+    const savedMemeToDisplay = getSavedImgs()
+    if (!savedMemeToDisplay) showNoSavedImgsMsg()
+    else showSavedImgs(savedMemeToDisplay)
 }
 
-function OnnewImgSave() {
+function showSavedImgs(savedMemeToDisplay) {
+    const strHtmls = savedMemeToDisplay.map(imgSaved => `
+    <img data-id="${imgSaved.selectedImgId}" src="${imgSaved.previewMeme}" onclick="onSavedImgClick(this)" alt="" >`)
+    document.querySelector('.savedImgGallery').innerHTML = strHtmls.join('')
+}
+
+function showNoSavedImgsMsg() {
+    const strHtml = `<img src="Img/zeroSavedMeme.jpg" alt="">`
+    document.querySelector('.savedImgGallery').innerHTML = strHtml
+}
+
+function onSavedImgClick(elSavedImg) {
+    const savedMemeToDisplay = getSavedImgs()
+    const id = +elSavedImg.dataset.id
+    const idx = findMemeIdx(savedMemeToDisplay, id)
+    updateGmeme(savedMemeToDisplay[idx])
+    setPassingToMemeDesign()
+    OnsetTxtWhenSwitchLine()
+    renderMeme()
+}
+
+function findMemeIdx(savedImgs, id) {
+    const idx = savedImgs.findIndex(savedImg => savedImg.selectedImgId === id)
+    return idx
+}
+
+function OnNewImgSave() {
     const savedImg = gElCanvas.toDataURL('image/jpg')
-    newImgSave(savedImg)
-    rendrImgsToMyMemes()
+    savedMemeDataUrl(savedImg)
+    renderSavedMeme()
 }
-
 
 function showOnlySavedImg() {
-    removeClassHide('my-memes')
+    removeClassHide('savedImgContainer')
     addClassHide('gallery-container')
     addClassHide('meme-editor')
 }

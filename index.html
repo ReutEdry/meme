@@ -28,14 +28,20 @@
         <h2>Welcome to my Meme generator!</h2>
         <p>I hope you will get the most funny memes so you can share with friends and laugh together</p>
         <p>You've got a lot of features try them ALL!</p>
-        <p>Notice that the line with the black border around it it is the line that you are currently editing</p>
+        <p class="important-msg">Notice that the line with the black border around it is the line that you are
+            currently editing
+        <p class="important-msg">in
+
+            order to save or share the meme without the line you need to press the Save text button</p>
+        </p>
         <p>So what are you waiting for? go ahead</p>
         <p>I hope you will enjoy it!🎨🖼️</p>
         <p>Reut Edry</p>
         <button class="modal-close-btn btn" onclick="closeModal()">Close</button>
     </dialog>
 
-    <section class="savedImgContainer">
+    <section class="savedImgContainer hide">
+        <section class="savedImgGallery"></section>
     </section>
 
     <section class="meme-editor hide">
@@ -79,6 +85,13 @@
                 <button onclick="onSetTextLeft()"><i class="fa-solid fa-align-left"></i></button>
                 <button onclick="onSetTextRight()"><i class="fa-solid fa-align-right"></i></button>
             </div>
+            <div class="stickers">
+                <button onclick="onStickerClick(this)">👑</button>
+                <button onclick="onStickerClick(this)">🦋</button>
+                <button onclick="onStickerClick(this)">🎆</button>
+                <button onclick="onStickerClick(this)">☠️</button>
+                <button onclick="onStickerClick(this)">🥩</button>
+            </div>
             <div>
                 <button title="delete line" onclick="onDeleteLine()"><i class="fa-solid fa-trash-can"></i></button>
                 <button class="goToGallery" onclick="backToGallery()"><i
@@ -90,21 +103,22 @@
                     <a title="download" href="#" class="download none-decoration" onclick="downloadImg(this)"
                         download="my-img.png"><i class="fa-solid fa-file-arrow-down"></i></a>
                 </button>
-                <!-- <button><a class="whatsapp none-decoration" href="" download="" onclick="shareToWattsup()">Share image
-                        with WhatsApp</a></button> -->
-
+                <!-- <button><a class="whatsapp none-decoration" href="#" download="" onclick="shareToWattsup()"><i
+                            class="fa-brands fa-square-whatsapp"></i></a></button> -->
+                <button onclick="shareToWattsup()" class="whatsapp"><i
+                        class="fa-brands fa-square-whatsapp"></i></button>
                 <button class="facebook-share" onclick="onUploadImg()">
                     <i class="fa-brands fa-square-facebook"></i>
                 </button>
                 <button onclick="prepearDownLoad()">Save text</button>
                 <button title="save your meme">
-                    <a href="#" class="btn" onclick="OnnewImgSave(this)"><i class="fa-regular fa-folder"></i></a>
+                    <a href="#" class="btn" onclick="OnNewImgSave(this)"><i class="fa-regular fa-folder"></i></a>
                 </button>
             </div>
         </article>
     </section>
 
-    <section class="gallery-container ">
+    <section class="gallery-container">
         <div class="gallery-headers">
             <button class="flexibale-btn" onclick="onRandomPickImg()">I'm flexible</button>
             <div class="filter-section">
@@ -118,6 +132,13 @@
                 </datalist>
                 <button class="clear-filter" onclick="onClearFIlter()">Clear Filter</button>
             </div>
+            <div class="keyCount flex">
+                <h3 class="funny" onclick="onKeyWordClick(this)">funny</h3>
+                <h3 class="cat" onclick="onKeyWordClick(this)">cat</h3>
+                <h3 class="baby" onclick="onKeyWordClick(this)">baby</h3>
+                <h3 class="political" onclick="onKeyWordClick(this)">political</h3>
+                <h3 class="dog" onclick="onKeyWordClick(this)">dog</h3>
+            </div>
         </div>
         <div class="gallery-img"></div>
     </section>
@@ -126,10 +147,9 @@
     <script src="js/service/gallery.service.js"></script>
     <script src="js/service/meme.service.js"></script>
     <script src="js/about.controller.js"></script>
-    <!-- <script src="js/service/savedMemes.service.js"></script> -->
     <script src="js/gallery.controller.js"></script>
     <script src="js/meme.controller.js"></script>
-    <!-- <script src="js/savedMemes.controller.js"></script> -->
+    <script src="js/savedMemes.controller.js"></script>
 </body>
 
 </html>

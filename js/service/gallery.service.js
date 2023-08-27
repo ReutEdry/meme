@@ -46,4 +46,8 @@ function setFilter(filterValue) {
     return gFilter
 }
 
+function findSavedMemeIdx(savedMemeToDisplay) {
+
+}
+
 

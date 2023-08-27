@@ -57,6 +57,7 @@ function drawRect(x, y, text, isEditable) {
 
     gCtx.strokeRect(bounds.left, bounds.top, width, height)
     gCtx.fillRect(bounds.left, bounds.top, width, height)
+
 }
 
 function onAddLine() {
@@ -96,6 +97,7 @@ function addMouseEvents() {
 function onDown(ev) {
     const pos = getEvPos(ev)
     if (!isTextBoxClicked(pos)) return
+    OnsetTxtWhenSwitchLine()
     setDraginLine(true)
     renderMeme()
     gStartPos = pos
@@ -157,7 +159,6 @@ function onDecreaseFont() {
     renderMeme()
 }
 
-
 function onSaveTextWidth(width) {
     saveTextWidth(width)
 }
@@ -217,12 +218,18 @@ function onFontChange(fontVal) {
     renderMeme()
 }
 
+function onStickerClick(elSticker) {
+    addLine(elSticker.innerText)
+    renderMeme()
+}
+
 // sharing on facebook
 function onUploadImg() {
     const imgDataUrl = gElCanvas.toDataURL('image/jpeg')
 
     function onSuccess(uploadedImgUrl) {
         const url = encodeURIComponent(uploadedImgUrl)
+        console.log(url);
         window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&t=${url}`)
     }
     doUploadImg(imgDataUrl, onSuccess)
@@ -248,23 +255,44 @@ function doUploadImg(imgDataUrl, onSuccess) {
 
 // download
 function prepearDownLoad() {
-    const memes = getMeme()
-    memes.lines.forEach(meme => {
-        meme.isEditable = false
-        renderMeme()
-    })
+    setPrepearForDownLoad()
+    renderMeme()
 }
 
 function downloadImg(elLink) {
-    prepearDownLoad()
+    // prepearDownLoad()
     const dataUrl = gElCanvas.toDataURL()
     elLink.href = dataUrl
     elLink.download = 'my-img'
 }
 
+// whatsapp
+function shareToWattsup() {
+    const imgDataUrl = gElCanvas.toDataURL('image/jpeg')
 
-// function shareToWattsup() {
-//     const elshare = document.querySelector('.whatsapp')
-//     const imgContent = gElCanvas.toDataURL('image/jpeg');
-//     elshare.setAttribute('href', 'whatsapp://send?text=' + encodeURIComponent(imgContent));
-// }
+    function onSuccess(uploadedImgUrl) {
+        const url = encodeURIComponent(uploadedImgUrl)
+        console.log(url);
+        window.open(`https://wa.me/?text=${url}`)
+    }
+    doUploadImg(imgDataUrl, onSuccess)
+}
+
+function doUploadImg(imgDataUrl, onSuccess) {
+    const formData = new FormData()
+    formData.append('img', imgDataUrl)
+    const XHR = new XMLHttpRequest()
+    XHR.onreadystatechange = () => {
+        if (XHR.readyState !== XMLHttpRequest.DONE) return
+        if (XHR.status !== 200) return console.error('Error uploading image')
+        const { responseText: url } = XHR
+        console.log('Got back live url:', url)
+        onSuccess(url)
+    }
+    XHR.onerror = (req, ev) => {
+        console.error('Error connecting to server with request:', req, '\nGot response data:', ev)
+    }
+    XHR.open('POST', '//ca-upload.com/here/upload.php')
+    XHR.send(formData)
+}
+

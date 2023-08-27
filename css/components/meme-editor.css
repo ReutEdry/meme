@@ -47,6 +47,8 @@
     font-family: inherit;
     font-weight: bold;
     background-color: #c4e8ef;
+    font-size: 1rem;
+
 
 }
 
@@ -66,6 +68,10 @@
 
 .tool-bar .download {
     color: black;
+}
+
+.tool-bar .whatsapp:hover {
+    background-color: #25D366;
 }
 
 .tool-bar .color {
@@ -95,4 +101,10 @@
     position: absolute;
     width: 25px;
     height: 25px;
+}
+
+.meme-editor .tool-bar>* button {
+    /* font-size: 1.5rem; */
+    padding: 0.3em;
+    font-size: 1rem;
 }
