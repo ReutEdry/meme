@@ -41,7 +41,7 @@
     </dialog>
 
     <section class="savedImgContainer hide">
-        <section class="savedImgGallery"></section>
+        <div class="savedImgGallery"></div>
     </section>
 
     <section class="meme-editor hide">
@@ -119,9 +119,9 @@
     </section>
 
     <section class="gallery-container">
-        <div class="gallery-headers">
+        <div class="gallery-headers flex">
             <button class="flexibale-btn" onclick="onRandomPickImg()">I'm flexible</button>
-            <div class="filter-section">
+            <div class="filter-section flex">
                 <label class="label-filter">Filter imgs:</label>
                 <input list="browsers" name="browser" class="filter" onchange="onFilterClick(this.value)">
                 <datalist id="browsers">

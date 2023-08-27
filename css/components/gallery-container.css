@@ -70,10 +70,7 @@
     filter: unset;
 }
 
-.gallery-container .keyCount {
-    margin-inline-start: 1em;
-    cursor: pointer;
-}
+
 
 .gallery-container .keyCount>* {
     margin-inline-start: 1em;

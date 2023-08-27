@@ -9,12 +9,30 @@
         font-size: 1.2em;
     }
 
+    .gallery-container .gallery-headers {
+        flex-direction: column;
+    }
+
+    /* .gallery-container>* {
+        margin-block-start: 2em;
+    } */
+
     .gallery-container .flexibale-btn {
         height: max-content;
+        margin-block-end: 1em;
     }
 
     .gallery-container .filter {
-        margin-block: 1em;
+        margin-block-end: 1em;
+    }
+
+    .gallery-container .filter-section .clear-filter {
+        height: max-content;
+    }
+
+    .gallery-container .gallery-headers .keyCount {
+        align-items: center;
+        justify-items: center;
     }
 
     .gallery-container .gallery-img img {
@@ -69,6 +87,11 @@
         columns: 4;
         padding: 20px;
         margin: 0 auto;
+    }
+
+    .gallery-container .keyCount {
+        margin-inline-start: 1em;
+        cursor: pointer;
     }
 
     .meme-editor {
