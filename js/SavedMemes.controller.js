@@ -19,7 +19,7 @@ function showSavedImgs(savedMemeToDisplay) {
 }
 
 function showNoSavedImgsMsg() {
-    const strHtml = `<img src="Img/zeroSavedMeme.jpg" alt="">`
+    const strHtml = `<img class="noImgMeme" src="Img/zeroSavedMeme.jpg" alt="">`
     document.querySelector('.savedImgGallery').innerHTML = strHtml
 }
 

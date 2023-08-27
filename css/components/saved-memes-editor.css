@@ -10,9 +10,13 @@
 
 .savedImgGallery img {
     display: block;
-    width: 100%;
+    width: min-content;
     filter: grayscale(0.7);
 }
+
+/* .savedImgContainer .noImgMeme {
+    width: 40%;
+} */
 
 .savedImgGallery img:hover {
     z-index: 1;
