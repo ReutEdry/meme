@@ -6,6 +6,7 @@
 @import url("./components/main-header.css");
 @import url("./components/gallery-container.css");
 @import url("./components/meme-editor.css");
+@import url("./components/dialog.css");
 
 /* MQ */
 @import url("./setUp/mq.css");

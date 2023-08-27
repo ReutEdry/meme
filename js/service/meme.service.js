@@ -52,6 +52,7 @@ function setDefaultLineDesign() {
         _createLine(45, 32, true),
         _createLine(45, 368)
     ]
+    gMeme.selectedLineIdx = 0
 }
 
 function setIncreaseFontSize() {
@@ -175,5 +176,14 @@ function setFontChange(fontVal) {
     // empty string
     if (fontVal === undefined) fontVal = 'Impact'
     gMeme.lines[gMeme.selectedLineIdx].font = fontVal
+}
+
+function getCurrLineTxt() {
+    if (gMeme.lines[gMeme.selectedLineIdx].txt === 'Write something funny') {
+        var textLine = ''
+    } else {
+        var textLine = gMeme.lines[gMeme.selectedLineIdx].txt
+    }
+    return textLine
 }
 

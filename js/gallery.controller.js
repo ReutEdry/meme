@@ -5,7 +5,6 @@ function onInit() {
     gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
     addEventListenrs()
-    // resizeCanvas()
 }
 
 function renderGallery() {
@@ -25,15 +24,14 @@ function onSelectMemeImg(elImg) {
 
 function onSetDefualtFeatures() {
     setDefaultLineDesign()
+    onSetColorDefault()
     const elTxt = document.querySelector('.txt-input')
     elTxt.value = ''
 }
 
 function setPassingToMemeDesign() {
-    const elGalleryContainer = document.querySelector('.gallery-container')
-    elGalleryContainer.classList.add('hide')
-    const elCanvasContainer = document.querySelector('.meme-editor')
-    elCanvasContainer.classList.remove('hide')
+    addClassHide('gallery-container')
+    removeClassHide('meme-editor')
 }
 
 function onRandomPickImg() {
@@ -45,17 +43,30 @@ function onRandomPickImg() {
 }
 
 function backToGallery() {
-    const elGalleryContainer = document.querySelector('.gallery-container')
-    elGalleryContainer.classList.remove('hide')
-    const elCanvasContainer = document.querySelector('.meme-editor')
-    elCanvasContainer.classList.add('hide')
+    removeClassHide('gallery-container')
+    addClassHide('meme-editor')
     onSetDefualtFeatures()
 }
 
 function onGalleryLinkClick(ev) {
     ev.preventDefault()
-    const elGalleryContainer = document.querySelector('.gallery-container')
-    elGalleryContainer.classList.remove('hide')
-    const elCanvasContainer = document.querySelector('.meme-editor')
-    elCanvasContainer.classList.add('hide')
+    removeClassHide('gallery-container')
+    addClassHide('meme-editor')
 }
+
+function onSetColorDefault() {
+    document.querySelector('.bgc').value = '#ffffff'
+    document.querySelector('.txt').value = '#000000'
+}
+
+function onFilterClick(filterValue) {
+    setFilter(filterValue)
+    renderGallery()
+}
+
+function onClearFIlter() {
+    document.querySelector('.filter').value = ''
+    setFilter('')
+    renderGallery()
+}
+

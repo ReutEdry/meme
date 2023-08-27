@@ -14,3 +14,11 @@ function loadFromStorage(key) {
     var val = localStorage.getItem(key)
     return JSON.parse(val)
 }
+
+function addClassHide(elemnt) {
+    document.querySelector(`.${elemnt}`).classList.add('hide')
+}
+
+function removeClassHide(elemnt) {
+    document.querySelector(`.${elemnt}`).classList.remove('hide')
+}

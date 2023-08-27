@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reut's meme</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://kit.fontawesome.com/4293d7fb44.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/5e357801ef.js" crossorigin="anonymous"></script>
 </head>
 
 <body onload="onInit()">
@@ -17,25 +17,37 @@
             <ul class="flex clean-list">
                 <li><a class="gallery none-decoration" onclick="onGalleryLinkClick(event)" href="">Gallery</a>
                 <li>
-                <li><a class="my-memes none-decoration" onclick="onSavedImgGaller(event)" href="">My Mems</a>
+                <li><a class="my-memes none-decoration" onclick="onSavedImgGallery(event)" href="">My Mems</a>
                 </li>
-                <li><a class="about none-decoration" href="">About</a></li>
+                <li><a class="about none-decoration" onclick="onReadAbout(event)" href="">About</a></li>
             </ul>
         </nav>
     </header>
 
-    <section class="savedImgContainer hide"></section>
+    <dialog class="dialog" onclick="onClickOutside(event, this)">
+        <h2>Welcome to my Meme generator!</h2>
+        <p>I hope you will get the most funny memes so you can share with friends and laugh together</p>
+        <p>You've got a lot of features try them ALL!</p>
+        <p>Notice that the line with the black border around it it is the line that you are currently editing</p>
+        <p>So what are you waiting for? go ahead</p>
+        <p>I hope you will enjoy it!🎨🖼️</p>
+        <p>Reut Edry</p>
+        <button class="modal-close-btn btn" onclick="closeModal()">Close</button>
+    </dialog>
+
+    <section class="savedImgContainer">
+    </section>
 
     <section class="meme-editor hide">
         <article class="canvas-container">
             <div class="editing-sec"></div>
-            <canvas width="400" height="400" onclick="onCanvasClick(event)"></canvas>
+            <canvas class="canvas" width="400" height="400"></canvas>
         </article>
 
         <article class="tool-bar">
             <div>
                 <input class="txt-input" type="text" placeholder="Write your meme text"
-                    oninput="onInputVal(this.value)">
+                    oninput="onInputTxtVal(this.value)">
                 <select class="font-selecting" onchange="onFontChange(this.value)">
                     <option value="">Select Font</option>
                     <option value="Impact">Impact</option>
@@ -62,7 +74,7 @@
                 <button onclick="onMoveLineLeft()"><i class="fa-solid fa-arrow-left"></i></button>
             </div>
             <div>
-                <button title="middle of canvas" onclick="onSetTextToMiddle()">Middle</button>
+                <button title="put the text in the middle" onclick="onSetTextToMiddle()">Middle</button>
                 <button onclick="onSetTextToCenter()"><i class="fa-solid fa-align-justify"></i></button>
                 <button onclick="onSetTextLeft()"><i class="fa-solid fa-align-left"></i></button>
                 <button onclick="onSetTextRight()"><i class="fa-solid fa-align-right"></i></button>
@@ -75,21 +87,37 @@
             </div>
             <div>
                 <button>
-                    <a href="#" class="download none-decoration" onclick="downloadImg(this)"
-                        download="my-img">Download</a>
+                    <a title="download" href="#" class="download none-decoration" onclick="downloadImg(this)"
+                        download="my-img.png"><i class="fa-solid fa-file-arrow-down"></i></a>
                 </button>
+                <!-- <button><a class="whatsapp none-decoration" href="" download="" onclick="shareToWattsup()">Share image
+                        with WhatsApp</a></button> -->
+
                 <button class="facebook-share" onclick="onUploadImg()">
-                    Share On Facebook
+                    <i class="fa-brands fa-square-facebook"></i>
                 </button>
-                <button title="save your meme" onclick="OnSaveImg()"><i class="fa-regular fa-folder"></i></button>
+                <button onclick="prepearDownLoad()">Save text</button>
+                <button title="save your meme">
+                    <a href="#" class="btn" onclick="OnnewImgSave(this)"><i class="fa-regular fa-folder"></i></a>
+                </button>
             </div>
         </article>
     </section>
 
     <section class="gallery-container ">
         <div class="gallery-headers">
-            <h1 class="gallery-h1">Select an image</h1>
             <button class="flexibale-btn" onclick="onRandomPickImg()">I'm flexible</button>
+            <div class="filter-section">
+                <label class="label-filter">Filter imgs:</label>
+                <input list="browsers" name="browser" class="filter" onchange="onFilterClick(this.value)">
+                <datalist id="browsers">
+                    <option value="Baby">
+                    <option value="Animal">
+                    <option value="Political">
+                    <option value="Tv">
+                </datalist>
+                <button class="clear-filter" onclick="onClearFIlter()">Clear Filter</button>
+            </div>
         </div>
         <div class="gallery-img"></div>
     </section>
@@ -97,10 +125,11 @@
     <script src="js/service/util.js"></script>
     <script src="js/service/gallery.service.js"></script>
     <script src="js/service/meme.service.js"></script>
-    <script src="js/service/savedMemes.service.js"></script>
+    <script src="js/about.controller.js"></script>
+    <!-- <script src="js/service/savedMemes.service.js"></script> -->
     <script src="js/gallery.controller.js"></script>
     <script src="js/meme.controller.js"></script>
-    <script src="js/savedMemes.controller.js"></script>
+    <!-- <script src="js/savedMemes.controller.js"></script> -->
 </body>
 
 </html>

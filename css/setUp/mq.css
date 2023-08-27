@@ -9,6 +9,18 @@
         font-size: 1.2em;
     }
 
+    .gallery-container .flexibale-btn {
+        height: max-content;
+    }
+
+    .gallery-container .filter {
+        margin-block: 1em;
+    }
+
+    .gallery-container .gallery-img img {
+        margin-block-start: 0.6em;
+    }
+
     .meme-editor {
         display: flex;
         flex-direction: column;

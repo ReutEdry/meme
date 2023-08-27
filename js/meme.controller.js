@@ -5,7 +5,6 @@ let gCtx
 let gImgById
 let gStartPos
 const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
-// let gIsDownloadReady = false
 
 function renderMeme() {
     const meme = getMeme()
@@ -17,15 +16,15 @@ function renderMeme() {
         gElCanvas.height = (elImg.naturalHeight / elImg.naturalWidth) * gElCanvas.width
         gCtx.drawImage(elImg, 0, 0, gElCanvas.width, gElCanvas.height)
         meme.lines.forEach(line => {
-            onDrawTxt(line.x, line.y, line.txt, line.size, line.bgClr, line.font)
-            drawRect(line.x, line.y, line.txt, line.isEditable, line.borderClr)
+            onDrawTxt(line.x, line.y, line.txt, line.size, line.bgClr, line.font, line.borderClr)
+            drawRect(line.x, line.y, line.txt, line.isEditable)
         })
     }
 }
 
-function onDrawTxt(x, y, text, size, bgClr, font) {
+function onDrawTxt(x, y, text, size, bgClr, font, borderClr) {
     gCtx.lineWidth = 2
-    gCtx.strokeStyle = 'black'
+    gCtx.strokeStyle = borderClr
     gCtx.fillStyle = bgClr
     gCtx.font = `${size}px ${font}`
     gCtx.textBaseline = 'middle'
@@ -34,7 +33,7 @@ function onDrawTxt(x, y, text, size, bgClr, font) {
     gCtx.strokeText(text, x, y)
 }
 
-function drawRect(x, y, text, isEditable, borderClr) {
+function drawRect(x, y, text, isEditable) {
     if (!isEditable) return
     const txtMeasure = gCtx.measureText(text)
     const bounds = {
@@ -53,7 +52,7 @@ function drawRect(x, y, text, isEditable, borderClr) {
         Math.abs(txtMeasure.actualBoundingBoxAscent) +
         Math.abs(txtMeasure.actualBoundingBoxDescent)
 
-    gCtx.strokeStyle = borderClr
+    gCtx.strokeStyle = 'black'
     gCtx.fillStyle = "rgba(0, 0, 200, 0)"
 
     gCtx.strokeRect(bounds.left, bounds.top, width, height)
@@ -67,18 +66,14 @@ function onAddLine() {
 
 function onSwitchLine() {
     setLineIdx()
+    OnsetTxtWhenSwitchLine()
     renderMeme()
 }
 
-function onCanvasClick(ev) {
-    // const pos = {
-    //     x: ev.offsetX,
-    //     y: ev.offsetY,
-    // }
-
-    // if (!isTextBoxClicked(pos)) return
-    // renderMeme()
-    // console.log(ev.offsetX, ev.offsetY)
+function OnsetTxtWhenSwitchLine() {
+    const elInputTxt = document.querySelector('.txt-input')
+    const txt = getCurrLineTxt()
+    elInputTxt.value = txt
 }
 
 function addEventListenrs() {
@@ -104,7 +99,6 @@ function onDown(ev) {
     setDraginLine(true)
     renderMeme()
     gStartPos = pos
-    document.body.style.cursor = 'grabbing'
 }
 
 function onMove(ev) {
@@ -122,9 +116,8 @@ function onMove(ev) {
     renderMeme()
 }
 
-function onUp(ev) {
+function onUp() {
     setDraginLine(false)
-    document.body.style.cursor = 'grab'
 }
 
 function getEvPos(ev) {
@@ -144,7 +137,7 @@ function getEvPos(ev) {
     return pos
 }
 
-function onInputVal(inpuVal) {
+function onInputTxtVal(inpuVal) {
     setLineTxt(inpuVal)
     renderMeme()
 }
@@ -164,36 +157,10 @@ function onDecreaseFont() {
     renderMeme()
 }
 
-function prepearDownLoad() {
-    const memes = getMeme()
-    memes.lines.forEach(meme => {
-        meme.isEditable = false
-        renderMeme()
-    })
-    gIsDownloadReady = true
-}
-
-function downloadImg(elLink) {
-    prepearDownLoad()
-    // setTimeout(() => {
-    // if (gIsDownloadReady) {
-
-    const dataUrl = gElCanvas.toDataURL()
-    elLink.href = dataUrl
-    elLink.download = 'my-img'
-    // }
-    // }, 3000);
-}
 
 function onSaveTextWidth(width) {
     saveTextWidth(width)
 }
-
-// function resizeCanvas() {
-//     const elContainer = document.querySelector('.canvas-container')
-//     gElCanvas.width = elContainer.offsetWidth
-//     gElCanvas.height = elContainer.offsetHeight
-// }
 
 function onDeleteLine() {
     deleteLine()
@@ -279,3 +246,25 @@ function doUploadImg(imgDataUrl, onSuccess) {
     XHR.send(formData)
 }
 
+// download
+function prepearDownLoad() {
+    const memes = getMeme()
+    memes.lines.forEach(meme => {
+        meme.isEditable = false
+        renderMeme()
+    })
+}
+
+function downloadImg(elLink) {
+    prepearDownLoad()
+    const dataUrl = gElCanvas.toDataURL()
+    elLink.href = dataUrl
+    elLink.download = 'my-img'
+}
+
+
+// function shareToWattsup() {
+//     const elshare = document.querySelector('.whatsapp')
+//     const imgContent = gElCanvas.toDataURL('image/jpeg');
+//     elshare.setAttribute('href', 'whatsapp://send?text=' + encodeURIComponent(imgContent));
+// }
